@@ -1,0 +1,489 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="QLCTXMModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'QLCTXM.dbo.HoaDon' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="HoaDon">
+          <Key>
+            <PropertyRef Name="IDThue" />
+            <PropertyRef Name="SoNgayThue" />
+            <PropertyRef Name="SoNgayTraMuon" />
+            <PropertyRef Name="TienThue" />
+            <PropertyRef Name="TienPhat" />
+            <PropertyRef Name="TongTien" />
+          </Key>
+          <Property Name="IDThue" Type="int" Nullable="false" />
+          <Property Name="SoNgayThue" Type="int" Nullable="false" />
+          <Property Name="SoNgayTraMuon" Type="int" Nullable="false" />
+          <Property Name="TienThue" Type="int" Nullable="false" />
+          <Property Name="TienPhat" Type="int" Nullable="false" />
+          <Property Name="TongTien" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KhachHang">
+          <Key>
+            <PropertyRef Name="IDKhachHang" />
+          </Key>
+          <Property Name="IDKhachHang" Type="int" Nullable="false" />
+          <Property Name="TenKhachHang" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="CCCD" Type="int" Nullable="false" />
+          <Property Name="GioiTinh" Type="bit" Nullable="false" />
+          <Property Name="DiaChi" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="SDT" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Nguoi">
+          <Key>
+            <PropertyRef Name="IDNguoi" />
+          </Key>
+          <Property Name="IDNguoi" Type="int" Nullable="false" />
+          <Property Name="IDAccount" Type="bit" Nullable="false" />
+          <Property Name="Ten" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="CCCD" Type="int" Nullable="false" />
+          <Property Name="GioiTinh" Type="bit" Nullable="false" />
+          <Property Name="DiaChi" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="SDT" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="TaiKhoan">
+          <Key>
+            <PropertyRef Name="IDAccount" />
+          </Key>
+          <Property Name="IDAccount" Type="bit" Nullable="false" />
+          <Property Name="TaiKhoan" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="MatKhau" Type="varchar" MaxLength="64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ThueXe">
+          <Key>
+            <PropertyRef Name="IDThue" />
+          </Key>
+          <Property Name="IDThue" Type="int" Nullable="false" />
+          <Property Name="IDKhachHang" Type="int" Nullable="false" />
+          <Property Name="IDNguoi" Type="int" Nullable="false" />
+          <Property Name="IDXe" Type="int" Nullable="false" />
+          <Property Name="NgayThue" Type="date" Nullable="false" />
+          <Property Name="NgayTra" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Xe">
+          <Key>
+            <PropertyRef Name="IDXe" />
+          </Key>
+          <Property Name="IDXe" Type="int" Nullable="false" />
+          <Property Name="TenXe" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="NhaSanXuat" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="SoDangKi" Type="int" Nullable="false" />
+          <Property Name="BienSo" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="PhanKhoi" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="MauSac" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="GiaThue" Type="int" Nullable="false" />
+          <Property Name="TinhTrang" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_HoaDon_ThueXe">
+          <End Role="ThueXe" Type="Self.ThueXe" Multiplicity="1" />
+          <End Role="HoaDon" Type="Self.HoaDon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ThueXe">
+              <PropertyRef Name="IDThue" />
+            </Principal>
+            <Dependent Role="HoaDon">
+              <PropertyRef Name="IDThue" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Nguoi_TaiKhoan">
+          <End Role="TaiKhoan" Type="Self.TaiKhoan" Multiplicity="1" />
+          <End Role="Nguoi" Type="Self.Nguoi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaiKhoan">
+              <PropertyRef Name="IDAccount" />
+            </Principal>
+            <Dependent Role="Nguoi">
+              <PropertyRef Name="IDAccount" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ThueXe_KhachHang">
+          <End Role="KhachHang" Type="Self.KhachHang" Multiplicity="1" />
+          <End Role="ThueXe" Type="Self.ThueXe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KhachHang">
+              <PropertyRef Name="IDKhachHang" />
+            </Principal>
+            <Dependent Role="ThueXe">
+              <PropertyRef Name="IDKhachHang" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ThueXe_Nguoi">
+          <End Role="Nguoi" Type="Self.Nguoi" Multiplicity="1" />
+          <End Role="ThueXe" Type="Self.ThueXe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nguoi">
+              <PropertyRef Name="IDNguoi" />
+            </Principal>
+            <Dependent Role="ThueXe">
+              <PropertyRef Name="IDNguoi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ThueXe_Xe">
+          <End Role="Xe" Type="Self.Xe" Multiplicity="1" />
+          <End Role="ThueXe" Type="Self.ThueXe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Xe">
+              <PropertyRef Name="IDXe" />
+            </Principal>
+            <Dependent Role="ThueXe">
+              <PropertyRef Name="IDXe" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="QLCTXMModelStoreContainer">
+          <EntitySet Name="KhachHang" EntityType="Self.KhachHang" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Nguoi" EntityType="Self.Nguoi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TaiKhoan" EntityType="Self.TaiKhoan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ThueXe" EntityType="Self.ThueXe" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Xe" EntityType="Self.Xe" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HoaDon" EntityType="Self.HoaDon" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [HoaDon].[IDThue] AS [IDThue], 
+    [HoaDon].[SoNgayThue] AS [SoNgayThue], 
+    [HoaDon].[SoNgayTraMuon] AS [SoNgayTraMuon], 
+    [HoaDon].[TienThue] AS [TienThue], 
+    [HoaDon].[TienPhat] AS [TienPhat], 
+    [HoaDon].[TongTien] AS [TongTien]
+    FROM [dbo].[HoaDon] AS [HoaDon]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_HoaDon_ThueXe" Association="Self.FK_HoaDon_ThueXe">
+            <End Role="ThueXe" EntitySet="ThueXe" />
+            <End Role="HoaDon" EntitySet="HoaDon" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Nguoi_TaiKhoan" Association="Self.FK_Nguoi_TaiKhoan">
+            <End Role="TaiKhoan" EntitySet="TaiKhoan" />
+            <End Role="Nguoi" EntitySet="Nguoi" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ThueXe_KhachHang" Association="Self.FK_ThueXe_KhachHang">
+            <End Role="KhachHang" EntitySet="KhachHang" />
+            <End Role="ThueXe" EntitySet="ThueXe" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ThueXe_Nguoi" Association="Self.FK_ThueXe_Nguoi">
+            <End Role="Nguoi" EntitySet="Nguoi" />
+            <End Role="ThueXe" EntitySet="ThueXe" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ThueXe_Xe" Association="Self.FK_ThueXe_Xe">
+            <End Role="Xe" EntitySet="Xe" />
+            <End Role="ThueXe" EntitySet="ThueXe" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="QLCTXMModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="KhachHang">
+          <Key>
+            <PropertyRef Name="IDKhachHang" />
+          </Key>
+          <Property Name="IDKhachHang" Type="Int32" Nullable="false" />
+          <Property Name="TenKhachHang" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CCCD" Type="Int32" Nullable="false" />
+          <Property Name="GioiTinh" Type="Boolean" Nullable="false" />
+          <Property Name="DiaChi" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SDT" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ThueXes" Relationship="Self.FK_ThueXe_KhachHang" FromRole="KhachHang" ToRole="ThueXe" />
+        </EntityType>
+        <EntityType Name="Nguoi">
+          <Key>
+            <PropertyRef Name="IDNguoi" />
+          </Key>
+          <Property Name="IDNguoi" Type="Int32" Nullable="false" />
+          <Property Name="IDAccount" Type="Boolean" Nullable="false" />
+          <Property Name="Ten" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CCCD" Type="Int32" Nullable="false" />
+          <Property Name="GioiTinh" Type="Boolean" Nullable="false" />
+          <Property Name="DiaChi" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SDT" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TaiKhoan" Relationship="Self.FK_Nguoi_TaiKhoan" FromRole="Nguoi" ToRole="TaiKhoan" />
+          <NavigationProperty Name="ThueXes" Relationship="Self.FK_ThueXe_Nguoi" FromRole="Nguoi" ToRole="ThueXe" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TaiKhoan">
+          <Key>
+            <PropertyRef Name="IDAccount" />
+          </Key>
+          <Property Name="IDAccount" Type="Boolean" Nullable="false" />
+          <Property Name="TaiKhoan1" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MatKhau" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Nguois" Relationship="Self.FK_Nguoi_TaiKhoan" FromRole="TaiKhoan" ToRole="Nguoi" />
+        </EntityType>
+        <EntityType Name="ThueXe">
+          <Key>
+            <PropertyRef Name="IDThue" />
+          </Key>
+          <Property Name="IDThue" Type="Int32" Nullable="false" />
+          <Property Name="IDKhachHang" Type="Int32" Nullable="false" />
+          <Property Name="IDNguoi" Type="Int32" Nullable="false" />
+          <Property Name="IDXe" Type="Int32" Nullable="false" />
+          <Property Name="NgayThue" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="NgayTra" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="KhachHang" Relationship="Self.FK_ThueXe_KhachHang" FromRole="ThueXe" ToRole="KhachHang" />
+          <NavigationProperty Name="Nguoi" Relationship="Self.FK_ThueXe_Nguoi" FromRole="ThueXe" ToRole="Nguoi" />
+          <NavigationProperty Name="HoaDons" Relationship="Self.FK_HoaDon_ThueXe" FromRole="ThueXe" ToRole="HoaDon" />
+          <NavigationProperty Name="Xe" Relationship="Self.FK_ThueXe_Xe" FromRole="ThueXe" ToRole="Xe" />
+        </EntityType>
+        <EntityType Name="Xe">
+          <Key>
+            <PropertyRef Name="IDXe" />
+          </Key>
+          <Property Name="IDXe" Type="Int32" Nullable="false" />
+          <Property Name="TenXe" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NhaSanXuat" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SoDangKi" Type="Int32" Nullable="false" />
+          <Property Name="BienSo" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PhanKhoi" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="MauSac" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="GiaThue" Type="Int32" Nullable="false" />
+          <Property Name="TinhTrang" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ThueXes" Relationship="Self.FK_ThueXe_Xe" FromRole="Xe" ToRole="ThueXe" />
+        </EntityType>
+        <EntityType Name="HoaDon">
+          <Key>
+            <PropertyRef Name="IDThue" />
+            <PropertyRef Name="SoNgayThue" />
+            <PropertyRef Name="SoNgayTraMuon" />
+            <PropertyRef Name="TienThue" />
+            <PropertyRef Name="TienPhat" />
+            <PropertyRef Name="TongTien" />
+          </Key>
+          <Property Name="IDThue" Type="Int32" Nullable="false" />
+          <Property Name="SoNgayThue" Type="Int32" Nullable="false" />
+          <Property Name="SoNgayTraMuon" Type="Int32" Nullable="false" />
+          <Property Name="TienThue" Type="Int32" Nullable="false" />
+          <Property Name="TienPhat" Type="Int32" Nullable="false" />
+          <Property Name="TongTien" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ThueXe" Relationship="Self.FK_HoaDon_ThueXe" FromRole="HoaDon" ToRole="ThueXe" />
+        </EntityType>
+        <Association Name="FK_ThueXe_KhachHang">
+          <End Role="KhachHang" Type="Self.KhachHang" Multiplicity="1" />
+          <End Role="ThueXe" Type="Self.ThueXe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KhachHang">
+              <PropertyRef Name="IDKhachHang" />
+            </Principal>
+            <Dependent Role="ThueXe">
+              <PropertyRef Name="IDKhachHang" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Nguoi_TaiKhoan">
+          <End Role="TaiKhoan" Type="Self.TaiKhoan" Multiplicity="1" />
+          <End Role="Nguoi" Type="Self.Nguoi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaiKhoan">
+              <PropertyRef Name="IDAccount" />
+            </Principal>
+            <Dependent Role="Nguoi">
+              <PropertyRef Name="IDAccount" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ThueXe_Nguoi">
+          <End Role="Nguoi" Type="Self.Nguoi" Multiplicity="1" />
+          <End Role="ThueXe" Type="Self.ThueXe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nguoi">
+              <PropertyRef Name="IDNguoi" />
+            </Principal>
+            <Dependent Role="ThueXe">
+              <PropertyRef Name="IDNguoi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HoaDon_ThueXe">
+          <End Role="ThueXe" Type="Self.ThueXe" Multiplicity="1" />
+          <End Role="HoaDon" Type="Self.HoaDon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ThueXe">
+              <PropertyRef Name="IDThue" />
+            </Principal>
+            <Dependent Role="HoaDon">
+              <PropertyRef Name="IDThue" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ThueXe_Xe">
+          <End Role="Xe" Type="Self.Xe" Multiplicity="1" />
+          <End Role="ThueXe" Type="Self.ThueXe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Xe">
+              <PropertyRef Name="IDXe" />
+            </Principal>
+            <Dependent Role="ThueXe">
+              <PropertyRef Name="IDXe" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="QLCTXMEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="KhachHangs" EntityType="Self.KhachHang" />
+          <EntitySet Name="Nguois" EntityType="Self.Nguoi" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="TaiKhoans" EntityType="Self.TaiKhoan" />
+          <EntitySet Name="ThueXes" EntityType="Self.ThueXe" />
+          <EntitySet Name="Xes" EntityType="Self.Xe" />
+          <EntitySet Name="HoaDons" EntityType="Self.HoaDon" />
+          <AssociationSet Name="FK_ThueXe_KhachHang" Association="Self.FK_ThueXe_KhachHang">
+            <End Role="KhachHang" EntitySet="KhachHangs" />
+            <End Role="ThueXe" EntitySet="ThueXes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Nguoi_TaiKhoan" Association="Self.FK_Nguoi_TaiKhoan">
+            <End Role="TaiKhoan" EntitySet="TaiKhoans" />
+            <End Role="Nguoi" EntitySet="Nguois" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ThueXe_Nguoi" Association="Self.FK_ThueXe_Nguoi">
+            <End Role="Nguoi" EntitySet="Nguois" />
+            <End Role="ThueXe" EntitySet="ThueXes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HoaDon_ThueXe" Association="Self.FK_HoaDon_ThueXe">
+            <End Role="ThueXe" EntitySet="ThueXes" />
+            <End Role="HoaDon" EntitySet="HoaDons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ThueXe_Xe" Association="Self.FK_ThueXe_Xe">
+            <End Role="Xe" EntitySet="Xes" />
+            <End Role="ThueXe" EntitySet="ThueXes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="QLCTXMModelStoreContainer" CdmEntityContainer="QLCTXMEntities">
+          <EntitySetMapping Name="KhachHangs">
+            <EntityTypeMapping TypeName="QLCTXMModel.KhachHang">
+              <MappingFragment StoreEntitySet="KhachHang">
+                <ScalarProperty Name="IDKhachHang" ColumnName="IDKhachHang" />
+                <ScalarProperty Name="TenKhachHang" ColumnName="TenKhachHang" />
+                <ScalarProperty Name="CCCD" ColumnName="CCCD" />
+                <ScalarProperty Name="GioiTinh" ColumnName="GioiTinh" />
+                <ScalarProperty Name="DiaChi" ColumnName="DiaChi" />
+                <ScalarProperty Name="SDT" ColumnName="SDT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Nguois">
+            <EntityTypeMapping TypeName="QLCTXMModel.Nguoi">
+              <MappingFragment StoreEntitySet="Nguoi">
+                <ScalarProperty Name="IDNguoi" ColumnName="IDNguoi" />
+                <ScalarProperty Name="IDAccount" ColumnName="IDAccount" />
+                <ScalarProperty Name="Ten" ColumnName="Ten" />
+                <ScalarProperty Name="CCCD" ColumnName="CCCD" />
+                <ScalarProperty Name="GioiTinh" ColumnName="GioiTinh" />
+                <ScalarProperty Name="DiaChi" ColumnName="DiaChi" />
+                <ScalarProperty Name="SDT" ColumnName="SDT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="QLCTXMModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaiKhoans">
+            <EntityTypeMapping TypeName="QLCTXMModel.TaiKhoan">
+              <MappingFragment StoreEntitySet="TaiKhoan">
+                <ScalarProperty Name="IDAccount" ColumnName="IDAccount" />
+                <ScalarProperty Name="TaiKhoan1" ColumnName="TaiKhoan" />
+                <ScalarProperty Name="MatKhau" ColumnName="MatKhau" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ThueXes">
+            <EntityTypeMapping TypeName="QLCTXMModel.ThueXe">
+              <MappingFragment StoreEntitySet="ThueXe">
+                <ScalarProperty Name="IDThue" ColumnName="IDThue" />
+                <ScalarProperty Name="IDKhachHang" ColumnName="IDKhachHang" />
+                <ScalarProperty Name="IDNguoi" ColumnName="IDNguoi" />
+                <ScalarProperty Name="IDXe" ColumnName="IDXe" />
+                <ScalarProperty Name="NgayThue" ColumnName="NgayThue" />
+                <ScalarProperty Name="NgayTra" ColumnName="NgayTra" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Xes">
+            <EntityTypeMapping TypeName="QLCTXMModel.Xe">
+              <MappingFragment StoreEntitySet="Xe">
+                <ScalarProperty Name="IDXe" ColumnName="IDXe" />
+                <ScalarProperty Name="TenXe" ColumnName="TenXe" />
+                <ScalarProperty Name="NhaSanXuat" ColumnName="NhaSanXuat" />
+                <ScalarProperty Name="SoDangKi" ColumnName="SoDangKi" />
+                <ScalarProperty Name="BienSo" ColumnName="BienSo" />
+                <ScalarProperty Name="PhanKhoi" ColumnName="PhanKhoi" />
+                <ScalarProperty Name="MauSac" ColumnName="MauSac" />
+                <ScalarProperty Name="GiaThue" ColumnName="GiaThue" />
+                <ScalarProperty Name="TinhTrang" ColumnName="TinhTrang" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HoaDons">
+            <EntityTypeMapping TypeName="QLCTXMModel.HoaDon">
+              <MappingFragment StoreEntitySet="HoaDon">
+                <ScalarProperty Name="IDThue" ColumnName="IDThue" />
+                <ScalarProperty Name="SoNgayThue" ColumnName="SoNgayThue" />
+                <ScalarProperty Name="SoNgayTraMuon" ColumnName="SoNgayTraMuon" />
+                <ScalarProperty Name="TienThue" ColumnName="TienThue" />
+                <ScalarProperty Name="TienPhat" ColumnName="TienPhat" />
+                <ScalarProperty Name="TongTien" ColumnName="TongTien" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
